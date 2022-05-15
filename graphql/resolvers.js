@@ -14,6 +14,7 @@ module.exports = {
         };
     },
     createUser: async function (args, req) {
+        console.log('CREATE NEW USER');
         const { email, name, password } = args.userInput;
         const errors = [];
         console.log({ input: args.userInput });
@@ -191,7 +192,7 @@ module.exports = {
         const posts = await Post.find()
             .populate('creator')
             .sort({ createdAt: -1 })
-            .skip((currentPage - 1) * 1)
+            .skip((currentPage - 1) * perPage)
             .limit(perPage);
 
         return {
