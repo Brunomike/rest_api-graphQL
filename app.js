@@ -7,8 +7,8 @@ const multer = require('multer');
 
 const timestamp = require('./utils/timestamp');
 
-const feedRoutes = require('./routes/feed');
-const authRoutes = require('./routes/auth');
+// const feedRoutes = require('./routes/feed');
+// const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -44,8 +44,8 @@ app.use((req, res, next) => {
 });
 
 
-app.use('/feed', feedRoutes);
-app.use('/auth', authRoutes);
+// app.use('/feed', feedRoutes);
+// app.use('/auth', authRoutes);
 
 app.use((error, req, res, next) => {
     console.log(error);
@@ -65,10 +65,10 @@ mongoose.connect('mongodb+srv://brunomike:LHMex1BqqIC3hfGv@cluster0.yeeda.mongod
             err ? console.log(err) : console.log(`http://localhost:8080`);
         });
 
-        const io = require('./socket').init(server);
-        io.on('connection', socket => {
-            console.log('Client connected');
-        });
+        // const io = require('./socket').init(server);
+        // io.on('connection', socket => {
+        //     console.log('Client connected');
+        // });
 
     }).catch(err => console.log(err));
 
