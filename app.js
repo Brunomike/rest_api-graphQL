@@ -100,7 +100,7 @@ app.use((error, req, res, next) => {
     });
 });
 
-mongoose.connect('mongodb+srv://brunomike:LHMex1BqqIC3hfGv@cluster0.yeeda.mongodb.net/messages')
+mongoose.connect(process.env.MONGO_URI)
     .then(async (result) => {
         //console.log(result);
         const server = app.listen(8080, (err) => {

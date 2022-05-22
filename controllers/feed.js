@@ -61,23 +61,45 @@ exports.createPost = async (req, res, next) => {
         creator: req.userId,
     });
     user.posts.push(post);
-    await user.save();
+    const savedUser = await user.save();
 
-    post.save().then(result => {
-        io.getIO().emit('posts', {
-            action: 'create',
-            post: result
-        });
-        res.status(201).json({
-            message: 'Post created successfully',
-            post: { ...post._doc, creator: { _id: req.userId, name: user.name } },
-        });
-    }).catch((err) => {
+    try {
+        post.save()
+            .then(result => {
+                io.getIO().emit('posts', {
+                    action: 'create',
+                    post: result
+                });
+                res.status(201).json({
+                    message: 'Post created successfully',
+                    post: { ...post._doc, creator: { _id: req.userId, name: user.name } },
+                });                
+            });
+            return savedUser;
+    } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500;
         }
         next(err);
-    });
+    }
+
+    // post.save()
+    //     .then(result => {
+    //         io.getIO().emit('posts', {
+    //             action: 'create',
+    //             post: result
+    //         });
+    //         res.status(201).json({
+    //             message: 'Post created successfully',
+    //             post: { ...post._doc, creator: { _id: req.userId, name: user.name } },
+    //         });
+    //         return savedUser;
+    //     }).catch((err) => {
+    //         if (!err.statusCode) {
+    //             err.statusCode = 500;
+    //         }
+    //         next(err);            
+    //     });
 
 };
 
